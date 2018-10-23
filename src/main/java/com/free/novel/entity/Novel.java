@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class Novel {
     private int id;
-    private String imageUrl;
     private String name;
     private String author;
     private String introduction;
