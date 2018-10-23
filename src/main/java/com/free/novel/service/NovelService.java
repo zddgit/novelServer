@@ -1,11 +1,13 @@
 package com.free.novel.service;
 
+import com.free.novel.entity.Chapter;
 import com.free.novel.entity.Novel;
 import com.free.novel.mapper.NovelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class NovelService {
@@ -14,8 +16,11 @@ public class NovelService {
     private NovelMapper novelMapper;
 
 
-    @Transactional
     public Novel getNovelById(int novelId) {
         return novelMapper.selectByPrimaryKey(novelId);
+    }
+
+    public List<Chapter> getChapters(int novelId) {
+        return  novelMapper.getChapters(novelId);
     }
 }
