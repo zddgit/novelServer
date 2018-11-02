@@ -50,5 +50,6 @@ CREATE TABLE `novel` (
   `introduction` varchar(255) NOT NULL DEFAULT '' COMMENT '简介',
   `recentChapterUpdateId` int(11) NOT NULL DEFAULT '0' COMMENT '最近更新章节id',
   `sourceId` int(11) NOT NULL COMMENT '源id',
+  `tagid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=397891 DEFAULT CHARSET=utf8;
