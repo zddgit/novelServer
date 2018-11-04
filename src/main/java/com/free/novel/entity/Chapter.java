@@ -11,5 +11,6 @@ public class Chapter {
     private int chapterId;
     private int novelId;
     private String title;
-
+    private String source;
+    private byte[] content;
 }
