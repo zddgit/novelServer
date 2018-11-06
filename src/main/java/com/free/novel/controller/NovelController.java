@@ -4,6 +4,7 @@ import com.free.novel.entity.Chapter;
 import com.free.novel.entity.Novel;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.Constant;
+import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -50,7 +51,7 @@ public class NovelController {
      */
     @GetMapping("/getChapters/{novelId}")
     public List<Chapter> getChapters(@PathVariable("novelId") int novelId) {
-        return novelService.getChapters(novelId);
+        return novelService.getDirectory(novelId);
     }
 
     /**
@@ -62,12 +63,11 @@ public class NovelController {
      */
     @GetMapping("/getImage/{novelId}.jpg")
     public void getImage(@PathVariable("novelId") int novelId, HttpServletResponse response) throws IOException {
-        String image = stringRedisTemplate.opsForValue().get(Constant.image.getKey() + novelId);
+        Novel novel = novelService.getNovelById(novelId);
         response.setHeader("Content-Type", "image/jpeg");
-        byte[] bytes = Base64.getDecoder().decode(image);
-        response.setHeader("Content-length", bytes.length + "");
+        response.setHeader("Content-length", novel.getCover().length + "");
         OutputStream out = response.getOutputStream();
-        out.write(bytes);
+        out.write(novel.getCover());
         out.flush();
         out.close();
     }
@@ -80,8 +80,11 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
-    public String getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) {
-        return (String) stringRedisTemplate.opsForHash().get(Constant.contents.getKey() + novelId, chapterId + "");
+    public String getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) throws UnsupportedEncodingException {
+        Chapter chapter = novelService.getChapterByChapterId(novelId,chapterId);
+        byte[] content = chapter.getContent();
+        content = ZLibUtils.decompress(content);
+        return new String(content,"GBK").replace("。","。\n");
     }
 
 

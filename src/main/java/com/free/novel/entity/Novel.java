@@ -12,7 +12,10 @@ public class Novel {
     private String name;
     private String author;
     private String introduction;
-    private int recentUpdateTime;
+    private int recentChapterUpdateId;
+    private int sourceId;
+    private int tagid;
+    private byte[] cover;
 
 
 }
