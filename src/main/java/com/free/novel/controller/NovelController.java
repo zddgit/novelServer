@@ -32,6 +32,16 @@ public class NovelController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
+    @GetMapping("/getRecommentNovelsTop10")
+    public List<Novel> getRecommentNovelsTop10(){
+        return  novelService.getRecommentNovelsTop10();
+    }
+    @GetMapping("/getNovelsByNameOrAuthor")
+    public List<Novel> getNovelsByNameOrAuthor(String keyword){
+        return  novelService.getNovelsByNameOrAuthor(keyword);
+    }
+
     /**
      * 获取小说信息
      *

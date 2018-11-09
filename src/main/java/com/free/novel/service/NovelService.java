@@ -30,4 +30,12 @@ public class NovelService {
     public Chapter getChapterByChapterId(int novelId, int chapterId) {
         return novelMapper.getChapterByChapterId(novelId,chapterId);
     }
+
+    public List<Novel> getRecommentNovelsTop10() {
+        return novelMapper.getRecommentNovelsTop10();
+    }
+
+    public List<Novel> getNovelsByNameOrAuthor(String keyword) {
+        return novelMapper.getNovelsByNameOrAuthor(keyword);
+    }
 }

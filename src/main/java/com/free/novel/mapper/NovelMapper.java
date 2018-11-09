@@ -25,4 +25,12 @@ public interface NovelMapper {
     @Select("select * from chapter where novelId = #{novelId} and chapterId = #{chapterId}")
     @ResultType(Chapter.class)
     Chapter getChapterByChapterId(@Param("novelId") int novelId,@Param("chapterId") int chapterId);
+
+    @Select("select * from novel limit 10")
+    @ResultType(Novel.class)
+    List<Novel> getRecommentNovelsTop10();
+
+    @Select("select * from novel where name like '%${keyword}%' or author like '%${keyword}%' limit 10")
+    @ResultType(Novel.class)
+    List<Novel> getNovelsByNameOrAuthor(@Param("keyword") String keyword);
 }
