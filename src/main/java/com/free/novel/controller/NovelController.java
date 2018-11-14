@@ -1,6 +1,7 @@
 package com.free.novel.controller;
 
 import com.free.novel.entity.Chapter;
+import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.Constant;
@@ -34,12 +35,23 @@ public class NovelController {
 
 
     @GetMapping("/getRecommentNovelsTop10")
-    public List<Novel> getRecommentNovelsTop10(){
-        return  novelService.getRecommentNovelsTop10();
+    public List<Novel> getRecommentNovelsTop10() {
+        return novelService.getRecommentNovelsTop10();
     }
+
     @GetMapping("/getNovelsByNameOrAuthor")
-    public List<Novel> getNovelsByNameOrAuthor(String keyword){
-        return  novelService.getNovelsByNameOrAuthor(keyword);
+    public List<Novel> getNovelsByNameOrAuthor(String keyword) {
+        return novelService.getNovelsByNameOrAuthor(keyword);
+    }
+
+    @GetMapping("/getNovelsByTag")
+    public List<Novel> getNovelsByTag(Integer tagId) {
+        return novelService.getNovelsByTag(tagId);
+    }
+
+    @GetMapping("/getDicByType")
+    public List<Dictionary> getDicByType(String type) {
+        return novelService.getDicByType(type);
     }
 
     /**
@@ -91,10 +103,10 @@ public class NovelController {
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
     public String getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) throws UnsupportedEncodingException {
-        Chapter chapter = novelService.getChapterByChapterId(novelId,chapterId);
+        Chapter chapter = novelService.getChapterByChapterId(novelId, chapterId);
         byte[] content = chapter.getContent();
         content = ZLibUtils.decompress(content);
-        return new String(content,"GBK").replace("。","。\n");
+        return new String(content, "GBK").replace("。", "。\n    ");
     }
 
 

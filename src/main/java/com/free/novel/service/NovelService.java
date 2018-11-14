@@ -1,6 +1,7 @@
 package com.free.novel.service;
 
 import com.free.novel.entity.Chapter;
+import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
 import com.free.novel.mapper.NovelMapper;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,13 @@ public class NovelService {
 
     public List<Novel> getNovelsByNameOrAuthor(String keyword) {
         return novelMapper.getNovelsByNameOrAuthor(keyword);
+    }
+
+    public List<Dictionary> getDicByType(String type) {
+        return novelMapper.getDicByType(type);
+    }
+
+    public List<Novel> getNovelsByTag(Integer tagId) {
+        return novelMapper.getNovelsByTag(tagId);
     }
 }

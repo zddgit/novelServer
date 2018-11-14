@@ -1,6 +1,7 @@
 package com.free.novel.mapper;
 
 import com.free.novel.entity.Chapter;
+import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
@@ -33,4 +34,12 @@ public interface NovelMapper {
     @Select("select * from novel where name like '%${keyword}%' or author like '%${keyword}%' limit 10")
     @ResultType(Novel.class)
     List<Novel> getNovelsByNameOrAuthor(@Param("keyword") String keyword);
+
+    @Select("select * from dictionary where type = #{type}")
+    @ResultType(Dictionary.class)
+    List<Dictionary> getDicByType(@Param("type") String type);
+
+    @Select("select id,name,author,introduction from novel where tagid = #{tagId} limit 10")
+    @ResultType(Novel.class)
+    List<Novel> getNovelsByTag(Integer tagId);
 }
