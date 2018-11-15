@@ -44,7 +44,7 @@ public class NovelService {
         return novelMapper.getDicByType(type);
     }
 
-    public List<Novel> getNovelsByTag(Integer tagId) {
-        return novelMapper.getNovelsByTag(tagId);
+    public List<Novel> getNovelsByTag(Integer tagId,Integer page) {
+        return novelMapper.getNovelsByTag(tagId,page);
     }
 }

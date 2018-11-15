@@ -45,8 +45,8 @@ public class NovelController {
     }
 
     @GetMapping("/getNovelsByTag")
-    public List<Novel> getNovelsByTag(Integer tagId) {
-        return novelService.getNovelsByTag(tagId);
+    public List<Novel> getNovelsByTag(Integer tagId,Integer page) {
+        return novelService.getNovelsByTag(tagId,page);
     }
 
     @GetMapping("/getDicByType")
@@ -102,11 +102,13 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
-    public String getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) throws UnsupportedEncodingException {
+    public Chapter getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) throws UnsupportedEncodingException {
         Chapter chapter = novelService.getChapterByChapterId(novelId, chapterId);
         byte[] content = chapter.getContent();
         content = ZLibUtils.decompress(content);
-        return new String(content, "GBK").replace("。", "。\n    ");
+        chapter.setContent_str(new String(content, "GBK").replace("。", "。\n    "));
+        chapter.setContent(null);
+        return chapter;
     }
 
 

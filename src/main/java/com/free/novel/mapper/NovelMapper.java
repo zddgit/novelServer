@@ -39,7 +39,7 @@ public interface NovelMapper {
     @ResultType(Dictionary.class)
     List<Dictionary> getDicByType(@Param("type") String type);
 
-    @Select("select id,name,author,introduction from novel where tagid = #{tagId} limit 10")
+    @Select("select id,name,author,introduction from novel where tagid = #{tagId} limit ${(page-1)*10},10")
     @ResultType(Novel.class)
-    List<Novel> getNovelsByTag(Integer tagId);
+    List<Novel> getNovelsByTag(@Param("tagId") Integer tagId,@Param("page") Integer page);
 }

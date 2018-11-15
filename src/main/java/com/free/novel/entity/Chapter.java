@@ -13,4 +13,5 @@ public class Chapter {
     private String title;
     private String source;
     private byte[] content;
+    private String content_str;
 }
