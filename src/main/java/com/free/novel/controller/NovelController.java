@@ -71,9 +71,9 @@ public class NovelController {
      * @param novelId
      * @return
      */
-    @GetMapping("/getChapters/{novelId}")
-    public List<Chapter> getChapters(@PathVariable("novelId") int novelId) {
-        return novelService.getDirectory(novelId);
+    @GetMapping("/getChapters/{novelId}/{limit}")
+    public List<Chapter> getChapters(@PathVariable("novelId") int novelId,@PathVariable("limit") int limit) {
+        return novelService.getDirectory(novelId,limit);
     }
 
     /**

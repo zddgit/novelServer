@@ -24,8 +24,8 @@ public class NovelService {
     public List<Chapter> getChapters(int novelId) {
         return  novelMapper.getChapters(novelId);
     }
-    public List<Chapter> getDirectory(int novelId) {
-        return  novelMapper.getDirectory(novelId);
+    public List<Chapter> getDirectory(int novelId,int limit) {
+        return  novelMapper.getDirectory(novelId,limit);
     }
 
     public Chapter getChapterByChapterId(int novelId, int chapterId) {
