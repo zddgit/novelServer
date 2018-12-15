@@ -40,8 +40,8 @@ public class NovelService {
         return novelMapper.getNovelsByNameOrAuthor(keyword);
     }
 
-    public List<Dictionary> getDicByType(String type) {
-        return novelMapper.getDicByType(type);
+    public List<Dictionary> getDicByType(String type,Integer status) {
+        return novelMapper.getDicByType(type,status);
     }
 
     public List<Novel> getNovelsByTag(Integer tagId,Integer page) {

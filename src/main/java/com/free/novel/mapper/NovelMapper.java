@@ -35,9 +35,9 @@ public interface NovelMapper {
     @ResultType(Novel.class)
     List<Novel> getNovelsByNameOrAuthor(@Param("keyword") String keyword);
 
-    @Select("select * from dictionary where type = #{type}")
+    @Select("select * from dictionary where type = #{type} and status = #{status}")
     @ResultType(Dictionary.class)
-    List<Dictionary> getDicByType(@Param("type") String type);
+    List<Dictionary> getDicByType(@Param("type") String type,@Param("status") Integer status);
 
     @Select("select id,name,author,introduction from novel where tagid = #{tagId} and cover is not null limit ${(page-1)*10},10")
     @ResultType(Novel.class)

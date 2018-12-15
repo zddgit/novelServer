@@ -50,9 +50,10 @@ public class NovelController {
     }
 
     @GetMapping("/getDicByType")
-    public List<Dictionary> getDicByType(String type) {
-        return novelService.getDicByType(type);
+    public List<Dictionary> getDicByType(String type,int status) {
+        return novelService.getDicByType(type,status);
     }
+
 
     /**
      * 获取小说信息
