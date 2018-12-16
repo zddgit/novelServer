@@ -54,6 +54,11 @@ public class NovelController {
         return novelService.getDicByType(type,status);
     }
 
+    @GetMapping("/getDicByType")
+    public Object loginOrRegister(String type,String account,String pwd) {
+        return novelService.loginOrRegister(type,account,pwd);
+    }
+
 
     /**
      * 获取小说信息

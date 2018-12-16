@@ -3,9 +3,9 @@ package com.free.novel.mapper;
 import com.free.novel.entity.Chapter;
 import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
+import com.free.novel.entity.User;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 
@@ -42,4 +42,44 @@ public interface NovelMapper {
     @Select("select id,name,author,introduction from novel where tagid = #{tagId} and cover is not null limit ${(page-1)*10},10")
     @ResultType(Novel.class)
     List<Novel> getNovelsByTag(@Param("tagId") Integer tagId,@Param("page") Integer page);
+
+    @Select("select * from user where email=#{account}")
+    @ResultType(User.class)
+    User selectByEmail(String account);
+    @Select("select * from user where phone=#{account}")
+    @ResultType(User.class)
+    User selectByPhone(String account);
+
+    @InsertProvider(type =sqlbuild.class,method = "register")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int register(@Param("user") User user);
+
+    class sqlbuild{
+        String register(User user){
+            return  new SQL(){{
+                INSERT_INTO("user");
+                if(user.getDeviceID()!=null){
+                    VALUES("deviceID","${user.deviceID}");
+                }
+                if(user.getEmail()!=null){
+                    VALUES("email","${user.email}");
+                }
+                if(user.getPhone()!=null){
+                    VALUES("phone","${user.phone}");
+                }
+                if(user.getToken()!=null){
+                    VALUES("token","${user.token}");
+                }
+                if(user.getPwd()!=null){
+                    VALUES("pwd","${user.pwd}");
+                }
+                if(user.getNick()!=null){
+                    VALUES("nick","${user.nick}");
+                }
+
+            }}.toString();
+
+        }
+
+    }
 }
