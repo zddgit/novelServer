@@ -77,6 +77,9 @@ public interface NovelMapper {
                 if(user.getNick()!=null){
                     VALUES("nick","#{nick}");
                 }
+                if(user.getRegisterTime()!=null){
+                    VALUES("registerTime","#{registerTime}");
+                }
 
             }}.toString();
 
