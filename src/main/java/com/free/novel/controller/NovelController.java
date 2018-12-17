@@ -54,7 +54,7 @@ public class NovelController {
         return novelService.getDicByType(type,status);
     }
 
-    @GetMapping("/getDicByType")
+    @GetMapping("/loginOrRegister")
     public Object loginOrRegister(String type,String account,String pwd) {
         return novelService.loginOrRegister(type,account,pwd);
     }

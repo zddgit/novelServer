@@ -51,30 +51,32 @@ public interface NovelMapper {
     User selectByPhone(String account);
 
     @InsertProvider(type =sqlbuild.class,method = "register")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    int register(@Param("user") User user);
+    @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
+    int register(User user);
 
     class sqlbuild{
-        String register(User user){
+
+       public String register(User user){
+           System.out.println(user);
             return  new SQL(){{
                 INSERT_INTO("user");
                 if(user.getDeviceID()!=null){
-                    VALUES("deviceID","${user.deviceID}");
+                    VALUES("deviceID","#{deviceID}");
                 }
                 if(user.getEmail()!=null){
-                    VALUES("email","${user.email}");
+                    VALUES("email","#{email}");
                 }
                 if(user.getPhone()!=null){
-                    VALUES("phone","${user.phone}");
+                    VALUES("phone","#{phone}");
                 }
                 if(user.getToken()!=null){
-                    VALUES("token","${user.token}");
+                    VALUES("token","#{token}");
                 }
                 if(user.getPwd()!=null){
-                    VALUES("pwd","${user.pwd}");
+                    VALUES("pwd","#{pwd}");
                 }
                 if(user.getNick()!=null){
-                    VALUES("nick","${user.nick}");
+                    VALUES("nick","#{nick}");
                 }
 
             }}.toString();

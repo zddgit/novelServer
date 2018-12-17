@@ -71,6 +71,7 @@ public class NovelService {
             }else {
                 user.setPhone(account);
             }
+            user.setNick(account);
             user.setPwd(pwd);
             user.setRegisterTime(Integer.parseInt(System.currentTimeMillis()/1000+""));
             novelMapper.register(user);
