@@ -50,7 +50,7 @@ public class NovelController {
     }
 
     @GetMapping("/getDicByType")
-    public List<Dictionary> getDicByType(String type,int status) {
+    public List<Dictionary> getDicByType(String type,Integer status) {
         return novelService.getDicByType(type,status);
     }
 
