@@ -57,7 +57,6 @@ public interface NovelMapper {
     class sqlbuild{
 
        public String register(User user){
-           System.out.println(user);
             return  new SQL(){{
                 INSERT_INTO("user");
                 if(user.getDeviceID()!=null){
