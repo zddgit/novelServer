@@ -11,10 +11,13 @@ public class User {
     private Integer id;
     private String nick;
     private String pwd;
-    private String token;
+    private Integer lastLoginTime;
     private String email;
     private String phone;
     private String deviceID;
     private Integer registerTime;
+    private Integer goldenBean;
+    private Integer expireDate;
+
 
 }

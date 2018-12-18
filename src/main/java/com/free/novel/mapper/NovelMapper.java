@@ -68,8 +68,8 @@ public interface NovelMapper {
                 if(user.getPhone()!=null){
                     VALUES("phone","#{phone}");
                 }
-                if(user.getToken()!=null){
-                    VALUES("token","#{token}");
+                if(user.getLastLoginTime()!=null){
+                    VALUES("lastLoginTime","#{lastLoginTime}");
                 }
                 if(user.getPwd()!=null){
                     VALUES("pwd","#{pwd}");

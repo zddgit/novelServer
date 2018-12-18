@@ -73,9 +73,14 @@ public class NovelService {
             }
             user.setNick(account);
             user.setPwd(pwd);
-            user.setRegisterTime(Integer.parseInt(System.currentTimeMillis()/1000+""));
+            Integer time = Integer.parseInt(System.currentTimeMillis()/1000+"");
+            user.setRegisterTime(time);
+            user.setLastLoginTime(time);
+            user.setGoldenBean(300);
+            user.setExpireDate(time+3*24*3600);
             novelMapper.register(user);
             map.put("message","注册成功");
+            map.put("data",user);
         }else {
             if(pwd.equals(user.getPwd())){
                 map.put("message","登陆成功");
