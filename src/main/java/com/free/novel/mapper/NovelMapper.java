@@ -80,6 +80,12 @@ public interface NovelMapper {
                 if(user.getRegisterTime()!=null){
                     VALUES("registerTime","#{registerTime}");
                 }
+                if(user.getGoldenBean()!=null){
+                    VALUES("goldenBean","#{goldenBean}");
+                }
+                if(user.getExpireDate()!=null){
+                    VALUES("expireDate","#{expireDate}");
+                }
 
             }}.toString();
 
