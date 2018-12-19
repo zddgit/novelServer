@@ -7,20 +7,14 @@ import com.free.novel.entity.User;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -29,8 +23,7 @@ public class NovelController {
     @Autowired
     private NovelService novelService;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+
 
 
     @GetMapping("/getRecommentNovelsTop10")
@@ -129,25 +122,25 @@ public class NovelController {
      * @param novelId
      * @throws IOException
      */
-    @GetMapping("/setImage/{novelId}")
-    public void setImage(String url, @PathVariable("novelId") int novelId) throws IOException {
-        //https://www.biqiuge.com/files/article/image/4/4772/4772s.jpg
-        URL fileURL = new URL(url); // 创建URL
-        URLConnection urlconn = fileURL.openConnection(); // 试图连接并取得返回状态码
-        urlconn.connect();
-        HttpURLConnection httpconn = (HttpURLConnection) urlconn;
-        int HttpResult = httpconn.getResponseCode();
-        if (HttpResult != HttpURLConnection.HTTP_OK) {
-            System.out.print("无法连接到");
-        } else {
-            int length = httpconn.getContentLength();
-            InputStream inputStream = urlconn.getInputStream();
-            byte[] bytes = new byte[length];
-            inputStream.read(bytes);
-            String image = Base64.getEncoder().encodeToString(bytes);
-            stringRedisTemplate.opsForValue().append("image_" + novelId, image);
-            inputStream.close();
-        }
-    }
+//    @GetMapping("/setImage/{novelId}")
+//    public void setImage(String url, @PathVariable("novelId") int novelId) throws IOException {
+//        //https://www.biqiuge.com/files/article/image/4/4772/4772s.jpg
+//        URL fileURL = new URL(url); // 创建URL
+//        URLConnection urlconn = fileURL.openConnection(); // 试图连接并取得返回状态码
+//        urlconn.connect();
+//        HttpURLConnection httpconn = (HttpURLConnection) urlconn;
+//        int HttpResult = httpconn.getResponseCode();
+//        if (HttpResult != HttpURLConnection.HTTP_OK) {
+//            System.out.print("无法连接到");
+//        } else {
+//            int length = httpconn.getContentLength();
+//            InputStream inputStream = urlconn.getInputStream();
+//            byte[] bytes = new byte[length];
+//            inputStream.read(bytes);
+//            String image = Base64.getEncoder().encodeToString(bytes);
+//            stringRedisTemplate.opsForValue().append("image_" + novelId, image);
+//            inputStream.close();
+//        }
+//    }
 
 }
