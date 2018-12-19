@@ -45,20 +45,26 @@ public interface NovelMapper {
 
     @Select("select * from user where email=#{account}")
     @ResultType(User.class)
-    User selectByEmail(String account);
+    User selectUserByEmail(String account);
     @Select("select * from user where phone=#{account}")
     @ResultType(User.class)
-    User selectByPhone(String account);
+    User selectUserByPhone(String account);
 
-    @InsertProvider(type =sqlbuild.class,method = "register")
+    @InsertProvider(type =sqlbuild.class,method = "insertOrUpdate")
     @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
-    int register(User user);
+    int insertOrUpdate(User user);
+    @Select("select * from user where id = #{id}")
+    @ResultType(User.class)
+    User selectUserByPrimaryKey(Integer id);
 
     class sqlbuild{
 
-       public String register(User user){
+       public String insertOrUpdate(User user){
             return  new SQL(){{
                 INSERT_INTO("user");
+                if(user.getId()!=null){
+                    VALUES("id","#{id}");
+                }
                 if(user.getDeviceID()!=null){
                     VALUES("deviceID","#{deviceID}");
                 }
@@ -87,7 +93,9 @@ public interface NovelMapper {
                     VALUES("expireDate","#{expireDate}");
                 }
 
-            }}.toString();
+            }}.toString() + " on DUPLICATE KEY UPDATE " +
+                    "pwd=VALUE(pwd),lastLoginTime=VALUE(lastLoginTime),nick=VALUE(nick)," +
+                    "goldenBean=VALUE(goldenBean),expireDate=VALUE(expireDate)";
 
         }
 

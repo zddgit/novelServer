@@ -3,6 +3,7 @@ package com.free.novel.controller;
 import com.free.novel.entity.Chapter;
 import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
+import com.free.novel.entity.User;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,11 @@ public class NovelController {
     @GetMapping("/loginOrRegister")
     public Object loginOrRegister(String type,String account,String pwd) {
         return novelService.loginOrRegister(type,account,pwd);
+    }
+
+    @GetMapping("/signIn")
+    public Object updateUser(User user,String oldgoldbean) {
+        return novelService.updateUser(user,oldgoldbean);
     }
 
 

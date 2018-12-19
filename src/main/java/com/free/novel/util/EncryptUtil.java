@@ -5,7 +5,6 @@ package com.free.novel.util;
  */
 public class EncryptUtil {
     private static int gene = 0xDB6;
-    private static String strkey = "homewell";
     public static String encryptInt(int src){
         int _src = src ^ gene;
         String _ret = "b";
@@ -25,9 +24,9 @@ public class EncryptUtil {
         return _src ^ gene;
     }
 
-    public static String encryptStr(String str){
+    public static String encryptStr(String str,String key){
         byte[] strbyte = str.getBytes();
-        byte[] keybyte = strkey.getBytes();
+        byte[] keybyte = key.getBytes();
         byte bt[] = {0,0};
         String retstr = "";
         for(int i = 0,j = 0; i < strbyte.length; i++,j++){
@@ -46,9 +45,9 @@ public class EncryptUtil {
         return retstr;
     }
 
-    public static String decryptStr(String str){
+    public static String decryptStr(String str,String key){
         byte[] strbyte = str.getBytes();
-        byte[] keybyte = strkey.getBytes();
+        byte[] keybyte = key.getBytes();
         String mstr = "";
         byte bt[] = {0,0};
         byte retbt[] = {0};
@@ -77,10 +76,7 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println("name: 温州市博宇锁业有限公司");
-        System.out.println("appkey: "+ encryptStr("") );
-        System.out.println("secret: "+ encryptStr("") );
-        System.out.println("pwd: "+ encryptStr("") );
+        System.out.println(decryptInt("abceeee"));
     }
 }
 
