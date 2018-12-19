@@ -94,8 +94,8 @@ public interface NovelMapper {
                 }
 
             }}.toString() + " on DUPLICATE KEY UPDATE " +
-                    "pwd=VALUE(pwd),lastLoginTime=VALUE(lastLoginTime),nick=VALUE(nick)," +
-                    "goldenBean=VALUE(goldenBean),expireDate=VALUE(expireDate)";
+                    "pwd=VALUES(pwd),lastLoginTime=VALUES(lastLoginTime),nick=VALUES(nick)," +
+                    "goldenBean=VALUES(goldenBean),expireDate=VALUES(expireDate)";
 
         }
 
