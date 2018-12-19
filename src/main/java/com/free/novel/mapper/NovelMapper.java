@@ -60,7 +60,7 @@ public interface NovelMapper {
     class sqlbuild{
 
        public String insertOrUpdate(User user){
-            return  new SQL(){{
+            String sql =new SQL(){{
                 INSERT_INTO("user");
                 if(user.getId()!=null){
                     VALUES("id","#{id}");
@@ -93,9 +93,13 @@ public interface NovelMapper {
                     VALUES("expireDate","#{expireDate}");
                 }
 
-            }}.toString() + " on DUPLICATE KEY UPDATE " +
-                    "pwd=VALUES(pwd),lastLoginTime=VALUES(lastLoginTime),nick=VALUES(nick)," +
-                    "goldenBean=VALUES(goldenBean),expireDate=VALUES(expireDate)";
+            }}.toString() + " on DUPLICATE KEY UPDATE "
+                    + user.getPwd()!=null?"pwd=VALUES(pwd),":""
+                    + user.getLastLoginTime()!=null?"lastLoginTime=VALUES(lastLoginTime),":""
+                    + user.getNick()!=null?"nick=VALUES(nick),":""
+                    + user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":""
+                    + user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"";
+            return sql.substring(0,sql.length()-1);
 
         }
 
