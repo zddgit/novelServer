@@ -60,7 +60,8 @@ public interface NovelMapper {
     class sqlbuild{
 
        public String insertOrUpdate(User user){
-            String sql =new SQL(){{
+           StringBuilder sb = new StringBuilder();
+            String sqlbuild = new SQL(){{
                 INSERT_INTO("user");
                 if(user.getId()!=null){
                     VALUES("id","#{id}");
@@ -93,13 +94,16 @@ public interface NovelMapper {
                     VALUES("expireDate","#{expireDate}");
                 }
 
-            }}.toString() + " on DUPLICATE KEY UPDATE "
-                    + user.getPwd()!=null?"pwd=VALUES(pwd),":""
-                    + user.getLastLoginTime()!=null?"lastLoginTime=VALUES(lastLoginTime),":""
-                    + user.getNick()!=null?"nick=VALUES(nick),":""
-                    + user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":""
-                    + user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"";
-            return sql.substring(0,sql.length()-1);
+            }}.toString();
+            sb.append(sqlbuild).append(" on DUPLICATE KEY UPDATE ");
+            sb.append(user.getPwd()!=null?"pwd=VALUES(pwd),":"");
+            sb.append(user.getLastLoginTime()!=null?"lastLoginTime=VALUES(lastLoginTime),":"");
+            sb.append(user.getNick()!=null?"nick=VALUES(nick),":"");
+            sb.append(user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":"");
+            sb.append(user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"");
+            String sql = sb.toString();
+            sql = sql.substring(0,sql.length()-1);
+            return sql;
 
         }
 
