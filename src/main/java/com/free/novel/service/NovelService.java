@@ -9,6 +9,8 @@ import com.free.novel.util.EncryptUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,11 +106,14 @@ public class NovelService {
             map.put("message","非法参数");
             return map;
         }
-        if(olduser.getSignInTime().equals(user.getSignInTime())){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String signInTime  = sdf.format(new Date());
+        if(olduser.getSignInTime().equals(signInTime)){
             map.put("code",1);
             map.put("message","已经签过到了");
             return map;
         }
+        user.setSignInTime(signInTime);
         novelMapper.insertOrUpdate(user);
         map.put("code",0);
         map.put("message","成功");
