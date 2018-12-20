@@ -43,10 +43,10 @@ public interface NovelMapper {
     @ResultType(Novel.class)
     List<Novel> getNovelsByTag(@Param("tagId") Integer tagId,@Param("page") Integer page);
 
-    @Select("select * from user where email=#{account}")
+    @Select("select *,getMessages(id) messages from user where email=#{account}")
     @ResultType(User.class)
     User selectUserByEmail(String account);
-    @Select("select * from user where phone=#{account}")
+    @Select("select *,getMessages(id) messages from user where phone=#{account}")
     @ResultType(User.class)
     User selectUserByPhone(String account);
 

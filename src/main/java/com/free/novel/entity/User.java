@@ -19,6 +19,7 @@ public class User {
     private Integer goldenBean;
     private Integer expireDate;
     private String signInTime;
+    private Integer messages;
 
 
 }
