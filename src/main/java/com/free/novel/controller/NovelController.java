@@ -5,6 +5,7 @@ import com.free.novel.entity.Dictionary;
 import com.free.novel.entity.Novel;
 import com.free.novel.entity.User;
 import com.free.novel.service.NovelService;
+import com.free.novel.util.EncryptUtil;
 import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class NovelController {
@@ -52,8 +55,12 @@ public class NovelController {
     }
 
     @GetMapping("/signIn")
-    public Object updateUser(User user,String oldgoldbean) {
-        return novelService.updateUser(user,oldgoldbean);
+    public Object signIn(User user,String verify) {
+        return novelService.signIn(user,verify);
+    }
+    @GetMapping("/getMessages")
+    public Object getMessages(Integer userid,String verify){
+        return novelService.getMessages(userid,verify);
     }
 
 

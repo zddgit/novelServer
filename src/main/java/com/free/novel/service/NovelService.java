@@ -1,9 +1,6 @@
 package com.free.novel.service;
 
-import com.free.novel.entity.Chapter;
-import com.free.novel.entity.Dictionary;
-import com.free.novel.entity.Novel;
-import com.free.novel.entity.User;
+import com.free.novel.entity.*;
 import com.free.novel.mapper.NovelMapper;
 import com.free.novel.util.EncryptUtil;
 import org.springframework.stereotype.Service;
@@ -97,11 +94,11 @@ public class NovelService {
         return map;
     }
 
-    public Object updateUser(User user, String oldgoldbean) {
+    public Object signIn(User user, String verify) {
         Map<String,Object> map = new HashMap<>();
-        Integer old = EncryptUtil.decryptInt(oldgoldbean);
         User olduser = novelMapper.selectUserByPrimaryKey(user.getId());
-        if(olduser.getGoldenBean().compareTo(old)!=0){
+        String gb = EncryptUtil.decryptStr(verify,user.getId().toString());
+        if(Integer.parseInt(gb) != user.getGoldenBean()){
             map.put("code",1);
             map.put("message","非法参数");
             return map;
@@ -117,6 +114,21 @@ public class NovelService {
         novelMapper.insertOrUpdate(user);
         map.put("code",0);
         map.put("message","成功");
+        return map;
+    }
+
+    public Object getMessages(Integer userid, String verify) {
+        Map<String,Object> map = new HashMap();
+        String userId = EncryptUtil.decryptStr(verify,userid.toString());
+        if(userid!=Integer.parseInt(userId)){
+            map.put("code",1);
+            map.put("message","非法参数");
+            return map;
+        }
+        List<Message> messages = novelMapper.getMessages(userid);
+        map.put("code",0);
+        map.put("message","成功");
+        map.put("data",messages);
         return map;
     }
 }

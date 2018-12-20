@@ -1,9 +1,6 @@
 package com.free.novel.mapper;
 
-import com.free.novel.entity.Chapter;
-import com.free.novel.entity.Dictionary;
-import com.free.novel.entity.Novel;
-import com.free.novel.entity.User;
+import com.free.novel.entity.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -56,6 +53,10 @@ public interface NovelMapper {
     @Select("select * from user where id = #{id}")
     @ResultType(User.class)
     User selectUserByPrimaryKey(Integer id);
+
+    @Select("select * from message where feedbackUserId = #{userid}")
+    @ResultType(Message.class)
+    List<Message> getMessages(Integer userid);
 
     class sqlbuild{
 
