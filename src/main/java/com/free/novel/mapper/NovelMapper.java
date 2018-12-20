@@ -93,6 +93,9 @@ public interface NovelMapper {
                 if(user.getExpireDate()!=null){
                     VALUES("expireDate","#{expireDate}");
                 }
+                if(user.getSignInTime()!=null){
+                    VALUES("signInTime","#{signInTime}");
+                }
 
             }}.toString();
             sb.append(sqlbuild).append(" on DUPLICATE KEY UPDATE ");
@@ -101,6 +104,7 @@ public interface NovelMapper {
             sb.append(user.getNick()!=null?"nick=VALUES(nick),":"");
             sb.append(user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":"");
             sb.append(user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"");
+            sb.append(user.getSignInTime()!=null?"signInTime=VALUES(signInTime),":"");
             String sql = sb.toString();
             sql = sql.substring(0,sql.length()-1);
             return sql;

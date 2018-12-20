@@ -18,6 +18,7 @@ public class User {
     private Integer registerTime;
     private Integer goldenBean;
     private Integer expireDate;
+    private String signInTime;
 
 
 }

@@ -104,6 +104,11 @@ public class NovelService {
             map.put("message","非法参数");
             return map;
         }
+        if(olduser.getSignInTime().equals(user.getSignInTime())){
+            map.put("code",1);
+            map.put("message","已经签过到了");
+            return map;
+        }
         novelMapper.insertOrUpdate(user);
         map.put("code",0);
         map.put("message","成功");
