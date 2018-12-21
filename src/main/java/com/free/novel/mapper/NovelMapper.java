@@ -47,23 +47,67 @@ public interface NovelMapper {
     @ResultType(User.class)
     User selectUserByPhone(String account);
 
-    @InsertProvider(type =sqlbuild.class,method = "insertOrUpdate")
+    @InsertProvider(type =sqlbuild.class,method = "insertOrUpdateUser")
     @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
     int insertOrUpdate(User user);
     @Select("select * from user where id = #{id}")
     @ResultType(User.class)
     User selectUserByPrimaryKey(Integer id);
 
-    @Select("select * from message where feedbackUserId = #{userid}")
+    @Select("select * from message where feedbackUserId = #{userid} and read is not null")
     @ResultType(Message.class)
     List<Message> getMessages(Integer userid);
 
     @Update("UPDATE message set `read` = 1 where id = #{messageId} ")
     int markRead(Integer messageId);
 
-    class sqlbuild{
+    @InsertProvider(type =sqlbuild.class,method = "insertOrUpdateMessage")
+    @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
+    int insertOrUpdate(Message message);
 
-       public String insertOrUpdate(User user){
+
+
+    class sqlbuild{
+       public String insertOrUpdateMessage(Message message){
+           StringBuilder sb = new StringBuilder();
+           String sql = new SQL(){{
+               INSERT_INTO("message");
+               if(message.getId()!=null){
+                   VALUES("id","#{id}");
+               }
+               if(message.getFeedbackUserId()!=null){
+                   VALUES("feedbackUserId","#{feedbackUserId}");
+               }
+               if(message.getFeedback()!=null){
+                   VALUES("feedback","#{feedback}");
+               }
+               if(message.getFeedbackTime()!=null){
+                   VALUES("feedbackTime","#{feedbackTime}");
+               }
+               if(message.getReply()!=null){
+                   VALUES("reply","#{reply}");
+               }
+               if(message.getReplyTime()!=null){
+                   VALUES("replyTime","#{replyTime}");
+               }
+               if(message.getReplyUserId()!=null){
+                   VALUES("replyUserId","#{replyUserId}");
+               }
+               if(message.getRead()!=null){
+                   VALUES("read","#{read}");
+               }
+           }}.toString();
+           sb.append(sql).append(" on DUPLICATE KEY UPDATE ");
+           sb.append(message.getRead()!=null?"read=VALUES(read),":"");
+           sb.append(message.getReplyUserId()!=null?"replyUserId=VALUES(replyUserId),":"");
+           sb.append(message.getReply()!=null?"reply=VALUES(reply),":"");
+           sb.append(message.getReplyTime()!=null?"replyTime=VALUES(replyTime),":"");
+           sql = sb.toString();
+           sql = sql.substring(0,sql.length()-1);
+           return sql;
+       }
+
+       public String insertOrUpdateUser(User user){
            StringBuilder sb = new StringBuilder();
             String sqlbuild = new SQL(){{
                 INSERT_INTO("user");

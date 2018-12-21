@@ -67,6 +67,11 @@ public class NovelController {
         return novelService.markRead(messageId,verify);
     }
 
+    @GetMapping("/feedback")
+    public Object feedback(Integer userId,String feedback,String verify){
+        return novelService.feedback(userId,feedback,verify);
+    }
+
 
     /**
      * 获取小说信息

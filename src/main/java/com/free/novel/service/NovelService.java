@@ -145,4 +145,23 @@ public class NovelService {
         map.put("message","成功");
         return map;
     }
+
+    public Object feedback(Integer userId, String feedback, String verify) {
+        Map<String,Object> map = new HashMap();
+        String userid = EncryptUtil.decryptStr(verify);
+        if(userId!=Integer.parseInt(userid)){
+            map.put("code",1);
+            map.put("message","非法参数");
+            return map;
+        }
+        Long time = System.currentTimeMillis()/1000;
+        Message message = new Message();
+        message.setFeedback(feedback);
+        message.setFeedbackUserId(userId);
+        message.setFeedbackTime(time.intValue());
+        novelMapper.insertOrUpdate(message);
+        map.put("code",0);
+        map.put("message","成功");
+        return map;
+    }
 }
