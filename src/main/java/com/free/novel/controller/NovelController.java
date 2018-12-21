@@ -62,6 +62,10 @@ public class NovelController {
     public Object getMessages(Integer userid,String verify){
         return novelService.getMessages(userid,verify);
     }
+    @GetMapping("/markRead")
+    public Object markRead(Integer messageId,String verify){
+        return novelService.markRead(messageId,verify);
+    }
 
 
     /**

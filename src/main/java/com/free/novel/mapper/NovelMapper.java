@@ -58,6 +58,9 @@ public interface NovelMapper {
     @ResultType(Message.class)
     List<Message> getMessages(Integer userid);
 
+    @Update("UPDATE message set `read` = 1 where id = #{messageId} ")
+    int markRead(Integer messageId);
+
     class sqlbuild{
 
        public String insertOrUpdate(User user){

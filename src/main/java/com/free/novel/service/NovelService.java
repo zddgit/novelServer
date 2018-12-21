@@ -131,4 +131,18 @@ public class NovelService {
         map.put("data",messages);
         return map;
     }
+
+    public Object markRead(Integer messageId, String verify) {
+        Map<String,Object> map = new HashMap();
+        String msgId = EncryptUtil.decryptStr(verify);
+        if(messageId!=Integer.parseInt(msgId)){
+            map.put("code",1);
+            map.put("message","非法参数");
+            return map;
+        }
+        novelMapper.markRead(messageId);
+        map.put("code",0);
+        map.put("message","成功");
+        return map;
+    }
 }
