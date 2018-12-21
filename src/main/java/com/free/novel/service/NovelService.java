@@ -77,14 +77,14 @@ public class NovelService {
             user.setLastLoginTime(time);
             user.setGoldenBean(300);
             user.setExpireDate(time+3*24*3600);
-            novelMapper.insertOrUpdate(user);
+            novelMapper.insertOrUpdateUser(user);
             map.put("message","注册成功");
             map.put("data",user);
         }else {
             if(pwd.equals(user.getPwd())){
                 Integer time = Integer.parseInt(System.currentTimeMillis()/1000+"");
                 user.setLastLoginTime(time);
-                novelMapper.insertOrUpdate(user);
+                novelMapper.insertOrUpdateUser(user);
                 map.put("message","登陆成功");
             }else {
                 map.put("message","密码错误");
@@ -111,7 +111,7 @@ public class NovelService {
             return map;
         }
         user.setSignInTime(signInTime);
-        novelMapper.insertOrUpdate(user);
+        novelMapper.insertOrUpdateUser(user);
         map.put("code",0);
         map.put("message","成功");
         return map;
@@ -159,7 +159,7 @@ public class NovelService {
         message.setFeedback(feedback);
         message.setFeedbackUserId(userId);
         message.setFeedbackTime(time.intValue());
-        novelMapper.insertOrUpdate(message);
+        novelMapper.insertOrUpdateMessage(message);
         map.put("code",0);
         map.put("message","成功");
         return map;

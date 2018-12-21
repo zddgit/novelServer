@@ -49,7 +49,7 @@ public interface NovelMapper {
 
     @InsertProvider(type =sqlbuild.class,method = "insertOrUpdateUser")
     @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
-    int insertOrUpdate(User user);
+    int insertOrUpdateUser(User user);
     @Select("select * from user where id = #{id}")
     @ResultType(User.class)
     User selectUserByPrimaryKey(Integer id);
@@ -63,7 +63,7 @@ public interface NovelMapper {
 
     @InsertProvider(type =sqlbuild.class,method = "insertOrUpdateMessage")
     @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
-    int insertOrUpdate(Message message);
+    int insertOrUpdateMessage(Message message);
 
 
 
