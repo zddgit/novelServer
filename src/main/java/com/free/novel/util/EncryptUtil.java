@@ -5,6 +5,7 @@ package com.free.novel.util;
  */
 public class EncryptUtil {
     private static int gene = 0xDB6;
+    private static  String key = "freeNovel@zdd";
     public static String encryptInt(int src){
         int _src = src ^ gene;
         String _ret = "b";
@@ -24,28 +25,29 @@ public class EncryptUtil {
         return _src ^ gene;
     }
 
-    public static String encryptStr(String str,String key){
+    public static String encryptStr(String str){
         byte[] strbyte = str.getBytes();
         byte[] keybyte = key.getBytes();
         byte bt[] = {0,0};
         String retstr = "";
-        for(int i = 0,j = 0; i < strbyte.length; i++,j++){
+        for(int i = 0,j = 0; i < strbyte.length; i++){
             int ret = strbyte[i] ^ keybyte[j];
             bt[0] = (byte) (65+ret/26);
             bt[1] = (byte) (65+ret%26);
 
             String s = new String(bt);
             retstr += s;
-
             if(j == keybyte.length - 1){
                 j = 0;
+            }else {
+                j++;
             }
         }
 
         return retstr;
     }
 
-    public static String decryptStr(String str,String key){
+    public static String decryptStr(String str){
         byte[] strbyte = str.getBytes();
         byte[] keybyte = key.getBytes();
         String mstr = "";
@@ -53,7 +55,7 @@ public class EncryptUtil {
         byte retbt[] = {0};
         for(int i = 0; i < strbyte.length/2; i++){
             bt[0] = (byte) ((byte) (strbyte[2*i]-65)*26);
-            bt[1] = (byte) ((byte) (strbyte[2*i + 1]-65));
+            bt[1] =  ((byte) (strbyte[2*i + 1]-65));
             retbt[0] = (byte) (bt[0] + bt[1]);
 
             String s = new String(retbt);
@@ -62,7 +64,7 @@ public class EncryptUtil {
 
         strbyte = mstr.getBytes();
         String retstr = "";
-        for(int i = 0 ,j = 0; i < strbyte.length; i++,j++){
+        for(int i = 0 ,j = 0; i < strbyte.length; i++){
             retbt[0] = (byte) (strbyte[i] ^ keybyte[j]);
 
             String s = new String(retbt);
@@ -70,13 +72,16 @@ public class EncryptUtil {
 
             if(j == keybyte.length -1){
                 j = 0;
+            }else {
+                j++;
             }
         }
         return retstr;
     }
 
     public static void main(String[] args) {
-        System.out.println(decryptInt("abceeee"));
+        System.out.println(encryptStr("786"));
+        System.out.println(decryptStr("DDCWDF"));
     }
 }
 

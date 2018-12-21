@@ -97,7 +97,7 @@ public class NovelService {
     public Object signIn(User user, String verify) {
         Map<String,Object> map = new HashMap<>();
         User olduser = novelMapper.selectUserByPrimaryKey(user.getId());
-        String gb = EncryptUtil.decryptStr(verify,user.getId().toString());
+        String gb = EncryptUtil.decryptStr(verify);
         if(Integer.parseInt(gb) != user.getGoldenBean()){
             map.put("code",1);
             map.put("message","非法参数");
@@ -119,7 +119,7 @@ public class NovelService {
 
     public Object getMessages(Integer userid, String verify) {
         Map<String,Object> map = new HashMap();
-        String userId = EncryptUtil.decryptStr(verify,userid.toString());
+        String userId = EncryptUtil.decryptStr(verify);
         if(userid!=Integer.parseInt(userId)){
             map.put("code",1);
             map.put("message","非法参数");
