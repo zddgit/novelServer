@@ -80,8 +80,8 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(encryptStr("786"));
-        System.out.println(decryptStr("DDCWDF"));
+        System.out.println(encryptInt(786789975));
+        System.out.println(decryptInt("1ee57be1c"));
     }
 }
 
