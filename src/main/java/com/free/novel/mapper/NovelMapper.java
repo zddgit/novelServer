@@ -54,7 +54,7 @@ public interface NovelMapper {
     @ResultType(User.class)
     User selectUserByPrimaryKey(Integer id);
 
-    @Select("select * from message where feedbackUserId = #{userid} and read is not null")
+    @Select("select * from message where feedbackUserId = #{userid} and `read` is not null")
     @ResultType(Message.class)
     List<Message> getMessages(Integer userid);
 
@@ -97,13 +97,16 @@ public interface NovelMapper {
                    VALUES("read","#{read}");
                }
            }}.toString();
-           sb.append(sql).append(" on DUPLICATE KEY UPDATE ");
-           sb.append(message.getRead()!=null?"read=VALUES(read),":"");
-           sb.append(message.getReplyUserId()!=null?"replyUserId=VALUES(replyUserId),":"");
-           sb.append(message.getReply()!=null?"reply=VALUES(reply),":"");
-           sb.append(message.getReplyTime()!=null?"replyTime=VALUES(replyTime),":"");
-           sql = sb.toString();
-           sql = sql.substring(0,sql.length()-1);
+           sb.append(sql);
+           if(message.getRead()!=null||message.getReplyUserId()!=null||message.getReply()!=null||message.getReplyTime()!=null){
+               sb.append(" on DUPLICATE KEY UPDATE ");
+               sb.append(message.getRead()!=null?"read=VALUES(read),":"");
+               sb.append(message.getReplyUserId()!=null?"replyUserId=VALUES(replyUserId),":"");
+               sb.append(message.getReply()!=null?"reply=VALUES(reply),":"");
+               sb.append(message.getReplyTime()!=null?"replyTime=VALUES(replyTime),":"");
+               sql = sb.toString();
+               sql = sql.substring(0,sql.length()-1);
+           }
            return sql;
        }
 
@@ -146,13 +149,16 @@ public interface NovelMapper {
                 }
 
             }}.toString();
-            sb.append(sqlbuild).append(" on DUPLICATE KEY UPDATE ");
-            sb.append(user.getPwd()!=null?"pwd=VALUES(pwd),":"");
-            sb.append(user.getLastLoginTime()!=null?"lastLoginTime=VALUES(lastLoginTime),":"");
-            sb.append(user.getNick()!=null?"nick=VALUES(nick),":"");
-            sb.append(user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":"");
-            sb.append(user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"");
-            sb.append(user.getSignInTime()!=null?"signInTime=VALUES(signInTime),":"");
+            if(user.getPwd()!=null||user.getLastLoginTime()!=null||user.getNick()!=null||user.getGoldenBean()!=null
+            || user.getExpireDate()!=null||user.getSignInTime()!=null){
+                sb.append(sqlbuild).append(" on DUPLICATE KEY UPDATE ");
+                sb.append(user.getPwd()!=null?"pwd=VALUES(pwd),":"");
+                sb.append(user.getLastLoginTime()!=null?"lastLoginTime=VALUES(lastLoginTime),":"");
+                sb.append(user.getNick()!=null?"nick=VALUES(nick),":"");
+                sb.append(user.getGoldenBean()!=null?"goldenBean=VALUES(goldenBean),":"");
+                sb.append(user.getExpireDate()!=null?"expireDate=VALUES(expireDate),":"");
+                sb.append(user.getSignInTime()!=null?"signInTime=VALUES(signInTime),":"");
+            }
             String sql = sb.toString();
             sql = sql.substring(0,sql.length()-1);
             return sql;
