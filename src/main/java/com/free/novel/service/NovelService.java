@@ -86,10 +86,11 @@ public class NovelService {
                 user.setLastLoginTime(time);
                 novelMapper.insertOrUpdateUser(user);
                 map.put("message","登陆成功");
+                map.put("data",user);
             }else {
+                map.put("code",1);
                 map.put("message","密码错误");
             }
-            map.put("data",user);
         }
         return map;
     }
