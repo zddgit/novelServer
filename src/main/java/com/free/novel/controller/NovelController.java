@@ -80,8 +80,9 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getNovel/{novelId}")
-    public Novel getNovel(@PathVariable("novelId") int novelId) {
-        return novelService.getNovelById(novelId);
+    public Novel getNovel(@PathVariable("novelId") String novelId) {
+        int id = EncryptUtil.decryptInt(novelId);
+        return novelService.getNovelById(id);
     }
 
     /**
@@ -91,8 +92,9 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getChapters/{novelId}/{limit}")
-    public List<Chapter> getChapters(@PathVariable("novelId") int novelId,@PathVariable("limit") int limit) {
-        return novelService.getDirectory(novelId,limit);
+    public List<Chapter> getChapters(@PathVariable("novelId") String novelId,@PathVariable("limit") int limit) {
+        int id = EncryptUtil.decryptInt(novelId);
+        return novelService.getDirectory(id,limit);
     }
 
     /**
@@ -103,8 +105,9 @@ public class NovelController {
      * @throws IOException
      */
     @GetMapping("/getImage/{novelId}.jpg")
-    public void getImage(@PathVariable("novelId") int novelId, HttpServletResponse response) throws IOException {
-        Novel novel = novelService.getNovelById(novelId);
+    public void getImage(@PathVariable("novelId") String novelId, HttpServletResponse response) throws IOException {
+        int id = EncryptUtil.decryptInt(novelId);
+        Novel novel = novelService.getNovelById(id);
         response.setHeader("Content-Type", "image/jpeg");
         response.setHeader("Content-length", novel.getCover().length + "");
         OutputStream out = response.getOutputStream();
@@ -121,8 +124,10 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
-    public Chapter getNovelDetail(@PathVariable("novelId") int novelId, @PathVariable("chapterId") int chapterId) throws UnsupportedEncodingException {
-        Chapter chapter = novelService.getChapterByChapterId(novelId, chapterId);
+    public Chapter getNovelDetail(@PathVariable("novelId") String novelId, @PathVariable("chapterId") String chapterId) throws UnsupportedEncodingException {
+        int nid = EncryptUtil.decryptInt(novelId);
+        int cid = EncryptUtil.decryptInt(chapterId);
+        Chapter chapter = novelService.getChapterByChapterId(nid, cid);
         byte[] content = chapter.getContent();
         content = ZLibUtils.decompress(content);
         chapter.setContent_str(new String(content, "GBK").replace("。", "。\n    "));
