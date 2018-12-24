@@ -1,25 +1,32 @@
 package com.free.novel.util;
 
+import java.util.Random;
+
 /**
  *加解密工具类
  */
 public class EncryptUtil {
     private static int gene = 0xDB6;
     private static  String key = "freeNovel@zdd";
+    private  static  Random random = new Random();
     public static String encryptInt(int src){
         int _src = src ^ gene;
-        String _ret = "b";
+        String _ret;
         if(_src < 0 ){
             _src = -_src;
-            _ret = "e";
+            _ret = "0";
+        }else {
+            _ret = ((char)(97 + random.nextInt(25)))+"";
         }
+        _src = _src + _ret.charAt(0);
         return Integer.toString(_src, 16) + _ret;
     }
 
     public static int decryptInt(String src){
         String _f =  src.substring(src.length() - 1 );
         int _src = Integer.parseInt(src.substring(0,src.length()-1), 16);
-        if("e".equals(_f)){
+        _src = _src - _f.charAt(0);
+        if("0".equals(_f)){
             _src = -_src;
         }
         return _src ^ gene;
@@ -80,8 +87,8 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(encryptInt(786789975));
-        System.out.println(decryptInt("1ee57be1c"));
+        System.out.println(encryptInt(10000));
+        System.out.println(decryptInt("18b8at"));
     }
 }
 
