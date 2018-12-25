@@ -65,6 +65,10 @@ public interface NovelMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id",keyColumn = "id")
     int insertOrUpdateMessage(Message message);
 
+    @Select("select * from app where type = 1")
+    @ResultType(App.class)
+    App getCurrentAPP();
+
 
 
     class sqlbuild{

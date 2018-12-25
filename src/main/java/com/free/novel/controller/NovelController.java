@@ -1,9 +1,6 @@
 package com.free.novel.controller;
 
-import com.free.novel.entity.Chapter;
-import com.free.novel.entity.Dictionary;
-import com.free.novel.entity.Novel;
-import com.free.novel.entity.User;
+import com.free.novel.entity.*;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.EncryptUtil;
 import com.free.novel.util.ZLibUtils;
@@ -12,19 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.io.*;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class NovelController {
 
     @Autowired
     private NovelService novelService;
+    @Resource
+    private HttpServletResponse response;
+
 
 
 
@@ -134,34 +132,28 @@ public class NovelController {
         chapter.setContent(null);
         return chapter;
     }
+    @GetMapping("/getVersion")
+    public Object getVersion(){
+        App app = novelService.getCurrentAPP();
+        return app.getVersion();
+    }
 
-
-    /**
-     * 测试使用的
-     *
-     * @param url
-     * @param novelId
-     * @throws IOException
-     */
-//    @GetMapping("/setImage/{novelId}")
-//    public void setImage(String url, @PathVariable("novelId") int novelId) throws IOException {
-//        //https://www.biqiuge.com/files/article/image/4/4772/4772s.jpg
-//        URL fileURL = new URL(url); // 创建URL
-//        URLConnection urlconn = fileURL.openConnection(); // 试图连接并取得返回状态码
-//        urlconn.connect();
-//        HttpURLConnection httpconn = (HttpURLConnection) urlconn;
-//        int HttpResult = httpconn.getResponseCode();
-//        if (HttpResult != HttpURLConnection.HTTP_OK) {
-//            System.out.print("无法连接到");
-//        } else {
-//            int length = httpconn.getContentLength();
-//            InputStream inputStream = urlconn.getInputStream();
-//            byte[] bytes = new byte[length];
-//            inputStream.read(bytes);
-//            String image = Base64.getEncoder().encodeToString(bytes);
-//            stringRedisTemplate.opsForValue().append("image_" + novelId, image);
-//            inputStream.close();
-//        }
-//    }
+    @GetMapping("/autoUpdate")
+    public void autoUpdate() throws IOException {
+        App app = novelService.getCurrentAPP();
+        File file = new File(app.getDownload());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        response.setHeader("Content-Disposition","attachment;filename=FreeNovel"+app.getVersion()+".apk");
+        int len = fileInputStream.available();
+        byte[] bytes = new byte[len];
+        DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+        dataInputStream.readFully(bytes);
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(bytes);
+        outputStream.flush();
+        dataInputStream.close();
+        fileInputStream.close();
+        outputStream.close();
+    }
 
 }

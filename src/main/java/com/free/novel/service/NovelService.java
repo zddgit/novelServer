@@ -165,4 +165,8 @@ public class NovelService {
         map.put("message","成功");
         return map;
     }
+
+    public App getCurrentAPP() {
+        return  novelMapper.getCurrentAPP();
+    }
 }
