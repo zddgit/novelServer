@@ -146,6 +146,7 @@ public class NovelController {
         response.setHeader("Content-Disposition","attachment;filename=FreeNovel"+app.getVersion()+".apk");
         int len = fileInputStream.available();
         byte[] bytes = new byte[len];
+        response.setContentLength(len);
         DataInputStream dataInputStream = new DataInputStream(fileInputStream);
         dataInputStream.readFully(bytes);
         OutputStream outputStream = response.getOutputStream();
