@@ -143,7 +143,7 @@ public class NovelController {
         App app = novelService.getCurrentAPP();
         File file = new File(app.getDownload());
         FileInputStream fileInputStream = new FileInputStream(file);
-        response.setHeader("Content-Disposition","attachment;filename=FreeNovel"+app.getVersion()+".apk");
+        response.setHeader("Content-Disposition","attachment;filename=freenovel"+app.getVersion()+".apk");
         int len = fileInputStream.available();
         byte[] bytes = new byte[len];
         response.setContentLength(len);
