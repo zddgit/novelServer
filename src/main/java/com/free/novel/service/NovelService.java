@@ -31,7 +31,10 @@ public class NovelService {
     }
 
     public Chapter getChapterByChapterId(int novelId, int chapterId) {
-        return novelMapper.getChapterByChapterId(novelId,chapterId);
+        Novel novel = novelMapper.selectNovelWithOutCoverAndintroduction(novelId);
+        int sourceid = novel.getSourceid();
+        String tableName = novelMapper.selectRouterTable(sourceid,novelId);
+        return novelMapper.getChapterByChapterId(tableName,novelId,chapterId);
     }
 
     public List<Novel> getRecommentNovelsTop10() {

@@ -11,6 +11,9 @@ public interface NovelMapper {
     @Select("select * from novel where id = #{novelId}")
     @ResultType(Novel.class)
     Novel selectByPrimaryKey(int novelId);
+    @Select("select id,name,author,recentChapterUpdateId,tagid,status,sourceid from novel where id = #{novelId}")
+    @ResultType(Novel.class)
+    Novel selectNovelWithOutCoverAndintroduction(int novelId);
 
     @Select("select * from chapter where novelId = #{novelId}")
     @ResultType(Chapter.class)
@@ -20,9 +23,9 @@ public interface NovelMapper {
     @ResultType(Chapter.class)
     List<Chapter> getDirectory(@Param("novelId")int novelId,@Param("limit")int limit);
 
-    @Select("select * from chapter where novelId = #{novelId} and chapterId = #{chapterId}")
+    @Select("select * from ${tableName} where novelId = #{novelId} and chapterId = #{chapterId}")
     @ResultType(Chapter.class)
-    Chapter getChapterByChapterId(@Param("novelId") int novelId,@Param("chapterId") int chapterId);
+    Chapter getChapterByChapterId(@Param("tableName") String tableName, @Param("novelId") int novelId, @Param("chapterId") int chapterId);
 
     @Select("select * from novel where cover is not null limit 10")
     @ResultType(Novel.class)
@@ -69,6 +72,8 @@ public interface NovelMapper {
     @ResultType(App.class)
     App getCurrentAPP();
 
+    @Select("select table_name from router where sourceid = #{sourceid} and novel_id_start<=#{novelId} and (novel_id_end is null or novel_id_end>=#{novelId})")
+    String selectRouterTable(@Param("sourceid") int sourceid, @Param("novelId") int novelId);
 
 
     class sqlbuild{
