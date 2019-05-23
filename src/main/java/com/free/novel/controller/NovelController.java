@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
@@ -22,6 +25,8 @@ public class NovelController {
     private NovelService novelService;
     @Resource
     private HttpServletResponse response;
+    @Resource
+    private HttpServletRequest request;
 
 
 
@@ -49,6 +54,10 @@ public class NovelController {
 
     @GetMapping("/loginOrRegister")
     public Object loginOrRegister(String type,String account,String pwd) {
+        String session = request.getSession().getId();
+        Cookie remoteSessionCookie= new Cookie("remoteSession", session);
+        remoteSessionCookie.setMaxAge(-1);
+        response.addCookie(remoteSessionCookie);
         return novelService.loginOrRegister(type,account,pwd);
     }
 
@@ -123,19 +132,26 @@ public class NovelController {
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
     public Chapter getNovelDetail(@PathVariable("novelId") String novelId, @PathVariable("chapterId") String chapterId) throws UnsupportedEncodingException {
+//        Cookie[] cs = request.getCookies();
+//        if(cs!=null){
+//            for (Cookie c : cs) {
+//                System.out.println(c.getName());
+//                System.out.println(c.getValue());
+//            }
+//        }
         int nid = EncryptUtil.decryptInt(novelId);
         int cid = EncryptUtil.decryptInt(chapterId);
         Chapter chapter = novelService.getChapterByChapterId(nid, cid);
         byte[] content = chapter.getContent();
         content = ZLibUtils.decompress(content);
-        chapter.setContent_str(new String(content, "GBK").replace("。", "。\n    "));
+        chapter.setContent_str(new String(content, "utf-8").replace("。", "。\n    "));
         chapter.setContent(null);
         return chapter;
     }
     @GetMapping("/getVersion")
     public Object getVersion(){
         App app = novelService.getCurrentAPP();
-        return app.getVersion();
+        return app==null?null:app.getVersion();
     }
 
     @GetMapping("/autoUpdate")

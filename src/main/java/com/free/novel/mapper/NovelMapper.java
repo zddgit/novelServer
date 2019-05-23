@@ -19,9 +19,9 @@ public interface NovelMapper {
     @ResultType(Chapter.class)
     List<Chapter> getChapters(int novelId);
 
-    @Select("select novelId,chapterId,title from chapter where novelId = #{novelId} limit #{limit},10000")
+    @Select("select novelId,chapterId,title from ${tableName} where novelId = #{novelId} limit #{limit},10000")
     @ResultType(Chapter.class)
-    List<Chapter> getDirectory(@Param("novelId")int novelId,@Param("limit")int limit);
+    List<Chapter> getDirectory(@Param("tableName") String tableName,@Param("novelId")int novelId,@Param("limit")int limit);
 
     @Select("select * from ${tableName} where novelId = #{novelId} and chapterId = #{chapterId}")
     @ResultType(Chapter.class)

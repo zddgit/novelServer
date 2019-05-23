@@ -27,7 +27,10 @@ public class NovelService {
         return  novelMapper.getChapters(novelId);
     }
     public List<Chapter> getDirectory(int novelId,int limit) {
-        return  novelMapper.getDirectory(novelId,limit);
+        Novel novel = novelMapper.selectNovelWithOutCoverAndintroduction(novelId);
+        int sourceid = novel.getSourceid();
+        String tableName = novelMapper.selectRouterTable(sourceid,novelId);
+        return  novelMapper.getDirectory(tableName,novelId,limit);
     }
 
     public Chapter getChapterByChapterId(int novelId, int chapterId) {
