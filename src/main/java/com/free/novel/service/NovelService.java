@@ -153,7 +153,7 @@ public class NovelService {
         return map;
     }
 
-    public Object feedback(Integer userId, String feedback, String verify) {
+    public Map feedback(Integer userId, String feedback, String verify) {
         Map<String,Object> map = new HashMap();
         String userid = EncryptUtil.decryptStr(verify);
         if(userId!=Integer.parseInt(userid)){

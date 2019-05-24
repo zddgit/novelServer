@@ -7,6 +7,7 @@ import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class NovelController {
@@ -75,7 +77,7 @@ public class NovelController {
     }
 
     @GetMapping("/feedback")
-    public Object feedback(Integer userId,String feedback,String verify){
+    public Map feedback(Integer userId, String feedback, String verify){
         return novelService.feedback(userId,feedback,verify);
     }
 
@@ -132,13 +134,6 @@ public class NovelController {
      */
     @GetMapping("/getNovelDetail/{novelId}/{chapterId}")
     public Chapter getNovelDetail(@PathVariable("novelId") String novelId, @PathVariable("chapterId") String chapterId) throws UnsupportedEncodingException {
-//        Cookie[] cs = request.getCookies();
-//        if(cs!=null){
-//            for (Cookie c : cs) {
-//                System.out.println(c.getName());
-//                System.out.println(c.getValue());
-//            }
-//        }
         int nid = EncryptUtil.decryptInt(novelId);
         int cid = EncryptUtil.decryptInt(chapterId);
         Chapter chapter = novelService.getChapterByChapterId(nid, cid);
@@ -172,5 +167,9 @@ public class NovelController {
         fileInputStream.close();
         outputStream.close();
     }
+//    @RequestMapping("/error")
+//    public Object urlErr(){
+//        return "错误的页面";
+//    }
 
 }
