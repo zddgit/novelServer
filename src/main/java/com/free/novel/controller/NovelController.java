@@ -7,10 +7,7 @@ import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -51,7 +48,11 @@ public class NovelController {
 
     @GetMapping("/getDicByType")
     public List<Dictionary> getDicByType(String type,Integer status) {
-        return novelService.getDicByType(type,status);
+        List<Dictionary> dictionaries = novelService.getDicByType(type,status);
+        if("tag".equals(type)){
+            dictionaries.add(dictionaries.remove(0));
+        }
+        return dictionaries;
     }
 
     @GetMapping("/loginOrRegister")

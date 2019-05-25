@@ -31,7 +31,7 @@ public interface NovelMapper {
     @ResultType(Novel.class)
     List<Novel> getRecommentNovelsTop10();
 
-    @Select("select * from novel where cover is not null and (name like '%${keyword}%' or author like '%${keyword}%') limit 10")
+    @Select("select * from novel where status = 2 and (name = #{keyword} or author = #{keyword}) limit 10")
     @ResultType(Novel.class)
     List<Novel> getNovelsByNameOrAuthor(@Param("keyword") String keyword);
 
@@ -39,7 +39,7 @@ public interface NovelMapper {
     @ResultType(Dictionary.class)
     List<Dictionary> getDicByType(@Param("type") String type,@Param("status") Integer status);
 
-    @Select("select id,name,author,introduction from novel where tagid = #{tagId} and cover is not null limit ${(page-1)*10},10")
+    @Select("select id,name,author,introduction from novel where tagid = #{tagId} and status = 2  limit ${(page-1)*10},10")
     @ResultType(Novel.class)
     List<Novel> getNovelsByTag(@Param("tagId") Integer tagId,@Param("page") Integer page);
 
