@@ -82,7 +82,7 @@ public class NovelService {
             user.setRegisterTime(time);
             user.setLastLoginTime(time);
             user.setGoldenBean(300);
-            user.setExpireDate(time+3*24*3600);
+            user.setExpireDate(time+14*24*3600);
             novelMapper.insertOrUpdateUser(user);
             map.put("message","注册成功");
             map.put("data",user);
