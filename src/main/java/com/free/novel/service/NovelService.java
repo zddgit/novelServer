@@ -3,6 +3,7 @@ package com.free.novel.service;
 import com.free.novel.entity.*;
 import com.free.novel.mapper.NovelMapper;
 import com.free.novel.util.EncryptUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +18,8 @@ public class NovelService {
 
     @Resource
     private NovelMapper novelMapper;
+    @Resource
+    private RedisTemplate redisTemplate;
 
 
     public Novel getNovelById(int novelId) {
@@ -26,6 +29,7 @@ public class NovelService {
     public List<Chapter> getChapters(int novelId) {
         return  novelMapper.getChapters(novelId);
     }
+
     public List<Chapter> getDirectory(int novelId,int limit) {
         Novel novel = novelMapper.selectNovelWithOutCoverAndintroduction(novelId);
         int sourceid = novel.getSourceid();
