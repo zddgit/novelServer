@@ -1,6 +1,6 @@
 package com.free.novel.service;
 
-import com.free.novel.entity.*;
+import com.free.novel.domain.*;
 import com.free.novel.mapper.NovelMapper;
 import com.free.novel.util.EncryptUtil;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -52,7 +52,7 @@ public class NovelService {
         return novelMapper.getNovelsByNameOrAuthor(keyword);
     }
 
-    public List<Dictionary> getDicByType(String type,Integer status) {
+    public List<Dictionary> getDicByType(String type, Integer status) {
         return novelMapper.getDicByType(type,status);
     }
 

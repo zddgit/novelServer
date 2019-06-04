@@ -1,6 +1,6 @@
 package com.free.novel;
 
-import com.free.novel.entity.Chapter;
+import com.free.novel.domain.Chapter;
 import com.free.novel.mapper.NovelMapper;
 import com.free.novel.util.ZLibUtils;
 import org.junit.Test;
