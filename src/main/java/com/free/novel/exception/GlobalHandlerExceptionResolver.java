@@ -1,19 +1,25 @@
 package com.free.novel.exception;
 
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.stereotype.Component;
+import com.free.novel.entity.BaseResponse;
+import com.free.novel.entity.CustomizeException;
+import com.free.novel.util.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * 用来捕获程序运行过程中出现的异常,与@ControllerAdvice标注的类实现的功能差不多一样
  */
-@Component
 public class GlobalHandlerExceptionResolver extends AbstractHandlerExceptionResolver {
+
+    private Logger logger = LoggerFactory.getLogger(GlobalHandlerExceptionResolver.class);
 
     public GlobalHandlerExceptionResolver() {
         //设置优先级
@@ -23,17 +29,32 @@ public class GlobalHandlerExceptionResolver extends AbstractHandlerExceptionReso
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-        httpServletResponse.setContentType("application/json");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code","500");
-        jsonObject.put("message","服务器捕获异常信息："+e.getMessage());
+        e.printStackTrace();
+        OutputStream outputStream=null;
         try {
-            httpServletResponse.getOutputStream().write(jsonObject.toJSONString().getBytes("utf-8"));
-            httpServletResponse.setStatus(500);
-            httpServletResponse.getOutputStream().flush();
+            outputStream = httpServletResponse.getOutputStream();
+            httpServletResponse.setContentType("application/json");
+            BaseResponse baseResponse;
+            if(e instanceof CustomizeException){
+                CustomizeException ec = (CustomizeException) e;
+                baseResponse = new BaseResponse(ec.getError(),ec.getMessage());
+            }else {
+                baseResponse = new BaseResponse( httpServletResponse.getStatus(),e.getMessage()==null?"NullPointException":e.getMessage());
+            }
+            outputStream.write(JsonUtil.obj2Json(baseResponse).getBytes(Charset.forName("utf-8")));
+            outputStream.flush();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            e.printStackTrace();
+        }finally {
+            if(outputStream!=null){
+                try {
+                    outputStream.close();
+                } catch (IOException e1) {
+                    e.printStackTrace();
+                }
+            }
         }
+
         return new ModelAndView();
     }
 }

@@ -1,6 +1,6 @@
 package com.free.novel.mapper;
 
-import com.free.novel.entity.*;
+import com.free.novel.domain.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 

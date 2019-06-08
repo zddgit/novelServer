@@ -1,4 +1,4 @@
-package com.free.novel.entity;
+package com.free.novel.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

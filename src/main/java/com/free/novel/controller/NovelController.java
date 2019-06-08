@@ -1,6 +1,6 @@
 package com.free.novel.controller;
 
-import com.free.novel.entity.*;
+import com.free.novel.domain.*;
 import com.free.novel.service.NovelService;
 import com.free.novel.util.EncryptUtil;
 import com.free.novel.util.ZLibUtils;
@@ -47,7 +47,7 @@ public class NovelController {
     }
 
     @GetMapping("/getDicByType")
-    public List<Dictionary> getDicByType(String type,Integer status) {
+    public List<Dictionary> getDicByType(String type, Integer status) {
         List<Dictionary> dictionaries = novelService.getDicByType(type,status);
         if("tag".equals(type)){
             dictionaries.add(dictionaries.remove(0));
@@ -65,7 +65,7 @@ public class NovelController {
     }
 
     @GetMapping("/signIn")
-    public Object signIn(User user,String verify) {
+    public Object signIn(User user, String verify) {
         return novelService.signIn(user,verify);
     }
     @GetMapping("/getMessages")
@@ -102,7 +102,7 @@ public class NovelController {
      * @return
      */
     @GetMapping("/getChapters/{novelId}/{limit}")
-    public List<Chapter> getChapters(@PathVariable("novelId") String novelId,@PathVariable("limit") int limit) {
+    public List<Chapter> getChapters(@PathVariable("novelId") String novelId, @PathVariable("limit") int limit) {
         int id = EncryptUtil.decryptInt(novelId);
         return novelService.getDirectory(id,limit);
     }
