@@ -11,6 +11,7 @@ public interface NovelMapper {
     @Select("select * from novel where id = #{novelId}")
     @ResultType(Novel.class)
     Novel selectByPrimaryKey(int novelId);
+
     @Select("select id,name,author,recentChapterUpdateId,tagid,status,sourceid from novel where id = #{novelId}")
     @ResultType(Novel.class)
     Novel selectNovelWithOutCoverAndintroduction(int novelId);
@@ -39,7 +40,7 @@ public interface NovelMapper {
     @ResultType(Dictionary.class)
     List<Dictionary> getDicByType(@Param("type") String type,@Param("status") Integer status);
 
-    @Select("select id,name,author,introduction from novel where tagid = #{tagId} and status = 2  limit ${(page-1)*10},10")
+    @Select("select id,name,author,introduction,sourceid from novel where tagid = #{tagId} and status = 2  limit ${(page-1)*10},10")
     @ResultType(Novel.class)
     List<Novel> getNovelsByTag(@Param("tagId") Integer tagId,@Param("page") Integer page);
 

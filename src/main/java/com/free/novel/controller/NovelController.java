@@ -28,9 +28,6 @@ public class NovelController {
     private HttpServletRequest request;
 
 
-
-
-
     @GetMapping("/getRecommentNovelsTop10")
     public List<Novel> getRecommentNovelsTop10() {
         return novelService.getRecommentNovelsTop10();
