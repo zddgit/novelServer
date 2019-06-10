@@ -5,6 +5,7 @@ import com.free.novel.service.NovelService;
 import com.free.novel.util.EncryptUtil;
 import com.free.novel.util.ZLibUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,8 @@ public class NovelController {
     private HttpServletResponse response;
     @Resource
     private HttpServletRequest request;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @GetMapping("/getRecommentNovelsTop10")
