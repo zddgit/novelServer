@@ -129,7 +129,17 @@ public class NovelService {
     }
 
     public List<Novel> getNovelsByNameOrAuthor(String keyword) {
-        return novelMapper.getNovelsByNameOrAuthor(keyword);
+        List<Novel>  novels= novelMapper.getNovelsByNameOrAuthor(keyword);
+        novels.forEach(novel -> {
+            Map<String,String> map = new HashMap<>();
+            map.put("id",novel.getId()+"");
+            map.put("name",novel.getName());
+            map.put("author",novel.getAuthor());
+            map.put("introduction",novel.getIntroduction());
+            map.put("sourceid",novel.getSourceid()+"");
+            stringRedisTemplate.opsForHash().putAll(RedisKey.getNovelKey((novel.getId()+"")), map);
+        });
+        return novels;
     }
 
     public List<Dictionary> getDicByType(String type, Integer status) {
