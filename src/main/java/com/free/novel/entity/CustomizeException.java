@@ -2,7 +2,7 @@ package com.free.novel.entity;
 
 public class CustomizeException extends RuntimeException {
     private String msg;
-    private int  error;
+    private int  code;
 
     @Override
     public String getMessage() {
@@ -13,9 +13,9 @@ public class CustomizeException extends RuntimeException {
         }
     }
 
-    public CustomizeException(int error, String msg){
+    public CustomizeException(int code, String msg){
         this.msg = msg;
-        this.error = error;
+        this.code = code;
     }
 
     public String getMsg() {
@@ -26,11 +26,11 @@ public class CustomizeException extends RuntimeException {
         this.msg = msg;
     }
 
-    public int getError() {
-        return error;
+    public int getCode() {
+        return code;
     }
 
-    public void setError(int error) {
-        this.error = error;
+    public void setCode(int code) {
+        this.code = code;
     }
 }

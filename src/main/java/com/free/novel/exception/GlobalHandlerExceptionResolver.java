@@ -37,7 +37,7 @@ public class GlobalHandlerExceptionResolver extends AbstractHandlerExceptionReso
             BaseResponse baseResponse;
             if(e instanceof CustomizeException){
                 CustomizeException ec = (CustomizeException) e;
-                baseResponse = new BaseResponse(ec.getError(),ec.getMessage());
+                baseResponse = new BaseResponse(ec.getCode(),ec.getMessage());
             }else {
                 baseResponse = new BaseResponse( httpServletResponse.getStatus(),e.getMessage()==null?"NullPointException":e.getMessage());
             }

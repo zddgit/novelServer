@@ -1,16 +1,16 @@
 package com.free.novel.entity;
 
 public class BaseResponse<T> {
-    private int error;
+    private int code;
     private String message;
     private T data;
 
-    public int getError() {
-        return error;
+    public int getCode() {
+        return code;
     }
 
-    public void setError(int error) {
-        this.error = error;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -29,14 +29,14 @@ public class BaseResponse<T> {
         this.data = data;
     }
 
-    public BaseResponse(int error, String message, T data) {
-        this.error = error;
+    public BaseResponse(int code, String message, T data) {
+        this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public BaseResponse(int error, String message) {
-        this.error = error;
+    public BaseResponse(int code, String message) {
+        this.code = code;
         this.message = message;
     }
 

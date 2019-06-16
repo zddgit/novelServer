@@ -2,6 +2,7 @@ package com.free.novel.service;
 
 import com.free.novel.domain.Dictionary;
 import com.free.novel.domain.*;
+import com.free.novel.entity.CustomizeException;
 import com.free.novel.entity.RedisKey;
 import com.free.novel.mapper.NovelMapper;
 import com.free.novel.util.EncryptUtil;
@@ -111,7 +112,11 @@ public class NovelService {
             String sourceid = stringRedisTemplate.opsForHash().get(RedisKey.getNovelKey(novelId+""),"sourceid").toString();
             String tableName = novelMapper.selectRouterTable(Integer.parseInt(sourceid), novelId);
             chapter =  novelMapper.getChapterByChapterId(tableName, novelId, chapterId);
-            saveChapterToRedis(chapter);
+            if(chapter!=null){
+                saveChapterToRedis(chapter);
+            }else {
+                throw new CustomizeException(-1,"没有更多结果!");
+            }
         }
         return  chapter;
     }
